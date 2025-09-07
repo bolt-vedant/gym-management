@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Calendar, Dumbbell, CreditCard, BarChart3, UserPlus, Clock, Activity } from 'lucide-react';
+import { Users, Calendar, Dumbbell, CreditCard, BarChart3, UserPlus, Clock, Activity, Apple, Target, ClipboardCheck, History, Bell } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Members from './components/Members';
 import MemberDetails from './components/MemberDetails';
@@ -7,7 +7,12 @@ import Trainers from './components/Trainers';
 import Classes from './components/Classes';
 import Equipment from './components/Equipment';
 import Payments from './components/Payments';
-import { Member, Trainer, GymClass, Equipment as EquipmentType, Payment } from './types';
+import DietPlanner from './components/DietPlanner';
+import WorkoutPlanner from './components/WorkoutPlanner';
+import Attendance from './components/Attendance';
+import DietWorkoutHistory from './components/DietWorkoutHistory';
+import NotificationSystem from './components/NotificationSystem';
+import { Member, Trainer, GymClass, Equipment as EquipmentType, Payment, DietPlan, WorkoutPlan } from './types';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -22,11 +27,11 @@ function App() {
       phone: '+1-555-0123',
       membershipType: 'Premium',
       joinDate: '2024-01-15',
-      membershipPrice: 99.99,
+      membershipPrice: 2999,
       pricing: {
-        monthly: 99.99,
-        quarterly: 269.99,
-        yearly: 999.99,
+        monthly: 2999,
+        quarterly: 8099,
+        yearly: 29999,
         discount: 10
       },
       status: 'Active',
@@ -39,14 +44,114 @@ function App() {
       phone: '+1-555-0124',
       membershipType: 'Basic',
       joinDate: '2024-01-10',
-      membershipPrice: 49.99,
+      membershipPrice: 1499,
       pricing: {
-        monthly: 49.99,
-        quarterly: 134.99,
-        yearly: 499.99
+        monthly: 1499,
+        quarterly: 4049,
+        yearly: 14999
       },
       status: 'Active',
       lastCheckIn: '2024-01-18T07:15:00Z'
+    },
+    {
+      id: '3',
+      name: 'Mike Chen',
+      email: 'mike@example.com',
+      phone: '+1-555-0125',
+      membershipType: 'VIP',
+      joinDate: '2023-12-20',
+      membershipPrice: 4499,
+      pricing: {
+        monthly: 4499,
+        quarterly: 12149,
+        yearly: 44999,
+        discount: 15
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-17T18:45:00Z'
+    },
+    {
+      id: '4',
+      name: 'Emily Rodriguez',
+      email: 'emily@example.com',
+      phone: '+1-555-0126',
+      membershipType: 'Premium',
+      joinDate: '2024-01-05',
+      membershipPrice: 2999,
+      pricing: {
+        monthly: 2999,
+        quarterly: 8099,
+        yearly: 29999,
+        discount: 10
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T14:20:00Z'
+    },
+    {
+      id: '5',
+      name: 'David Wilson',
+      email: 'david@example.com',
+      phone: '+1-555-0127',
+      membershipType: 'Basic',
+      joinDate: '2023-11-15',
+      membershipPrice: 1499,
+      pricing: {
+        monthly: 1499,
+        quarterly: 4049,
+        yearly: 14999
+      },
+      status: 'Suspended',
+      lastCheckIn: '2024-01-10T10:30:00Z'
+    },
+    {
+      id: '6',
+      name: 'Lisa Thompson',
+      email: 'lisa.t@example.com',
+      phone: '+1-555-0128',
+      membershipType: 'VIP',
+      joinDate: '2023-10-08',
+      membershipPrice: 4499,
+      pricing: {
+        monthly: 4499,
+        quarterly: 12149,
+        yearly: 44999,
+        discount: 15
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T16:15:00Z'
+    },
+    {
+      id: '7',
+      name: 'James Brown',
+      email: 'james@example.com',
+      phone: '+1-555-0129',
+      membershipType: 'Premium',
+      joinDate: '2024-01-12',
+      membershipPrice: 2999,
+      pricing: {
+        monthly: 2999,
+        quarterly: 8099,
+        yearly: 29999,
+        discount: 10
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T12:00:00Z'
+    },
+    {
+      id: '8',
+      name: 'Anna Martinez',
+      email: 'anna@example.com',
+      phone: '+1-555-0130',
+      membershipType: 'Basic',
+      joinDate: '2023-12-01',
+      membershipPrice: 1499,
+      pricing: {
+        monthly: 1499,
+        quarterly: 4049,
+        yearly: 14999
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-17T08:45:00Z'
     }
   ]);
 
@@ -113,7 +218,7 @@ function App() {
     {
       id: '1',
       memberId: '1',
-      amount: 99.99,
+      amount: 2999,
       date: '2024-01-15',
       status: 'Completed',
       description: 'Premium Monthly Membership'
@@ -121,12 +226,63 @@ function App() {
     {
       id: '2',
       memberId: '2',
-      amount: 49.99,
+      amount: 1499,
       date: '2024-01-10',
+      status: 'Completed',
+      description: 'Basic Monthly Membership'
+    },
+    {
+      id: '3',
+      memberId: '3',
+      amount: 4499,
+      date: '2023-12-20',
+      status: 'Completed',
+      description: 'VIP Monthly Membership'
+    },
+    {
+      id: '4',
+      memberId: '4',
+      amount: 2999,
+      date: '2024-01-05',
+      status: 'Completed',
+      description: 'Premium Monthly Membership'
+    },
+    {
+      id: '5',
+      memberId: '5',
+      amount: 1499,
+      date: '2023-11-15',
+      status: 'Failed',
+      description: 'Basic Monthly Membership'
+    },
+    {
+      id: '6',
+      memberId: '6',
+      amount: 4499,
+      date: '2023-10-08',
+      status: 'Completed',
+      description: 'VIP Monthly Membership'
+    },
+    {
+      id: '7',
+      memberId: '7',
+      amount: 2999,
+      date: '2024-01-12',
+      status: 'Pending',
+      description: 'Premium Monthly Membership'
+    },
+    {
+      id: '8',
+      memberId: '8',
+      amount: 1499,
+      date: '2023-12-01',
       status: 'Completed',
       description: 'Basic Monthly Membership'
     }
   ]);
+
+  const [dietPlans, setDietPlans] = useState<DietPlan[]>([]);
+  const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
 
   const navigation = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
@@ -135,7 +291,28 @@ function App() {
     { id: 'classes', label: 'Classes', icon: Calendar },
     { id: 'equipment', label: 'Equipment', icon: Dumbbell },
     { id: 'payments', label: 'Payments', icon: CreditCard },
+    { id: 'attendance', label: 'Attendance', icon: ClipboardCheck },
+    { id: 'history', label: 'History', icon: History },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'diet-planner', label: 'Diet Planner', icon: Apple },
+    { id: 'workout-planner', label: 'Workout Planner', icon: Target },
   ];
+
+  const handleAddPayment = (payment: Omit<Payment, 'id'>) => {
+    const newPayment: Payment = {
+      ...payment,
+      id: Date.now().toString()
+    };
+    setPayments([...payments, newPayment]);
+  };
+
+  const handleDietPlanGenerated = (plan: DietPlan) => {
+    setDietPlans(prev => [...prev, plan]);
+  };
+
+  const handleWorkoutPlanGenerated = (plan: WorkoutPlan) => {
+    setWorkoutPlans(prev => [...prev, plan]);
+  };
 
   const renderContent = () => {
     if (selectedMember) {
@@ -144,10 +321,11 @@ function App() {
           member={selectedMember} 
           payments={payments.filter(p => p.memberId === selectedMember.id)}
           onBack={() => setSelectedMember(null)}
-          onEdit={(member) => {
-            setSelectedMember(null);
-            setActiveTab('members');
+          onEdit={(updatedMember) => {
+            setMembers(prev => prev.map(m => m.id === updatedMember.id ? updatedMember : m));
+            setSelectedMember(updatedMember);
           }}
+          onAddPayment={handleAddPayment}
         />
       );
     }
@@ -180,7 +358,17 @@ function App() {
       case 'equipment':
         return <Equipment equipment={equipment} setEquipment={setEquipment} />;
       case 'payments':
-        return <Payments payments={payments} members={members} />;
+        return <Payments payments={payments} members={members} onAddPayment={handleAddPayment} onMemberClick={setSelectedMember} />;
+      case 'attendance':
+        return <Attendance />;
+      case 'history':
+        return <DietWorkoutHistory />;
+      case 'notifications':
+        return <NotificationSystem />;
+      case 'diet-planner':
+        return <DietPlanner onPlanGenerated={handleDietPlanGenerated} />;
+      case 'workout-planner':
+        return <WorkoutPlanner onPlanGenerated={handleWorkoutPlanGenerated} />;
       default:
         return (
           <Dashboard 
@@ -199,12 +387,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      <header className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
               <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
-                <Activity className="h-6 w-6 text-white" />
+                <Activity className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">FitnessPro</h1>
@@ -213,7 +401,7 @@ function App() {
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <Clock className="h-4 w-4" />
+                <Clock className="w-4 h-4" />
                 <span>{new Date().toLocaleDateString()}</span>
               </div>
             </div>
@@ -223,7 +411,7 @@ function App() {
 
       <div className="flex">
         {/* Sidebar */}
-        <nav className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen">
+        <nav className="w-64 min-h-screen bg-white border-r border-gray-200 shadow-sm">
           <div className="p-4">
             <ul className="space-y-2">
               {navigation.map((item) => {
@@ -238,7 +426,7 @@ function App() {
                           : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="w-5 h-5" />
                       <span className="font-medium">{item.label}</span>
                     </button>
                   </li>

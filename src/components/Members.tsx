@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, Edit, Trash2, Clock, Mail, Phone } from 'lucide-react';
+import { Search, Plus, Edit, Trash2, Clock, Mail, Phone, User } from 'lucide-react';
 import { Member } from '../types';
 
 interface MembersProps {
@@ -31,14 +31,42 @@ const Members: React.FC<MembersProps> = ({ members, setMembers, onMemberClick })
     if (editingMember) {
       setMembers(prev => prev.map(member => 
         member.id === editingMember.id 
-          ? { ...member, ...formData }
+          ? { 
+              ...member, 
+              ...formData,
+              membershipPrice: formData.membershipType === 'VIP' ? 149.99 : 
+                              formData.membershipType === 'Premium' ? 99.99 : 49.99,
+              pricing: {
+                monthly: formData.membershipType === 'VIP' ? 149.99 : 
+                        formData.membershipType === 'Premium' ? 99.99 : 49.99,
+                quarterly: formData.membershipType === 'VIP' ? 404.99 : 
+                          formData.membershipType === 'Premium' ? 269.99 : 134.99,
+                yearly: formData.membershipType === 'VIP' ? 1499.99 : 
+                       formData.membershipType === 'Premium' ? 999.99 : 499.99,
+                discount: formData.membershipType === 'VIP' ? 15 : 
+                         formData.membershipType === 'Premium' ? 10 : undefined
+              }
+            }
           : member
       ));
       setEditingMember(null);
     } else {
+      const membershipPrice = formData.membershipType === 'VIP' ? 149.99 : 
+                             formData.membershipType === 'Premium' ? 99.99 : 49.99;
       const newMember: Member = {
         id: Date.now().toString(),
         ...formData,
+        joinDate: new Date().toISOString().split('T')[0],
+        membershipPrice,
+        pricing: {
+          monthly: membershipPrice,
+          quarterly: formData.membershipType === 'VIP' ? 404.99 : 
+                    formData.membershipType === 'Premium' ? 269.99 : 134.99,
+          yearly: formData.membershipType === 'VIP' ? 1499.99 : 
+                 formData.membershipType === 'Premium' ? 999.99 : 499.99,
+          discount: formData.membershipType === 'VIP' ? 15 : 
+                   formData.membershipType === 'Premium' ? 10 : undefined
+        },
         status: 'Active',
       };
       setMembers(prev => [...prev, newMember]);
