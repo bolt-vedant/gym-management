@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Calendar, Dumbbell, CreditCard, BarChart3, UserPlus, Clock, Activity } from 'lucide-react';
+import { Users, Calendar, Dumbbell, CreditCard, BarChart3, UserPlus, Clock, Activity, Apple, Target } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Members from './components/Members';
 import MemberDetails from './components/MemberDetails';
@@ -7,7 +7,9 @@ import Trainers from './components/Trainers';
 import Classes from './components/Classes';
 import Equipment from './components/Equipment';
 import Payments from './components/Payments';
-import { Member, Trainer, GymClass, Equipment as EquipmentType, Payment } from './types';
+import DietPlanner from './components/DietPlanner';
+import WorkoutPlanner from './components/WorkoutPlanner';
+import { Member, Trainer, GymClass, Equipment as EquipmentType, Payment, DietPlan, WorkoutPlan } from './types';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -47,6 +49,106 @@ function App() {
       },
       status: 'Active',
       lastCheckIn: '2024-01-18T07:15:00Z'
+    },
+    {
+      id: '3',
+      name: 'Mike Chen',
+      email: 'mike@example.com',
+      phone: '+1-555-0125',
+      membershipType: 'VIP',
+      joinDate: '2023-12-20',
+      membershipPrice: 149.99,
+      pricing: {
+        monthly: 149.99,
+        quarterly: 404.99,
+        yearly: 1499.99,
+        discount: 15
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-17T18:45:00Z'
+    },
+    {
+      id: '4',
+      name: 'Emily Rodriguez',
+      email: 'emily@example.com',
+      phone: '+1-555-0126',
+      membershipType: 'Premium',
+      joinDate: '2024-01-05',
+      membershipPrice: 99.99,
+      pricing: {
+        monthly: 99.99,
+        quarterly: 269.99,
+        yearly: 999.99,
+        discount: 10
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T14:20:00Z'
+    },
+    {
+      id: '5',
+      name: 'David Wilson',
+      email: 'david@example.com',
+      phone: '+1-555-0127',
+      membershipType: 'Basic',
+      joinDate: '2023-11-15',
+      membershipPrice: 49.99,
+      pricing: {
+        monthly: 49.99,
+        quarterly: 134.99,
+        yearly: 499.99
+      },
+      status: 'Suspended',
+      lastCheckIn: '2024-01-10T10:30:00Z'
+    },
+    {
+      id: '6',
+      name: 'Lisa Thompson',
+      email: 'lisa.t@example.com',
+      phone: '+1-555-0128',
+      membershipType: 'VIP',
+      joinDate: '2023-10-08',
+      membershipPrice: 149.99,
+      pricing: {
+        monthly: 149.99,
+        quarterly: 404.99,
+        yearly: 1499.99,
+        discount: 15
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T16:15:00Z'
+    },
+    {
+      id: '7',
+      name: 'James Brown',
+      email: 'james@example.com',
+      phone: '+1-555-0129',
+      membershipType: 'Premium',
+      joinDate: '2024-01-12',
+      membershipPrice: 99.99,
+      pricing: {
+        monthly: 99.99,
+        quarterly: 269.99,
+        yearly: 999.99,
+        discount: 10
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-18T12:00:00Z'
+    },
+    {
+      id: '8',
+      name: 'Anna Martinez',
+      email: 'anna@example.com',
+      phone: '+1-555-0130',
+      membershipType: 'Basic',
+      joinDate: '2023-12-01',
+      membershipPrice: 49.99,
+      pricing: {
+        monthly: 49.99,
+        quarterly: 134.99,
+        yearly: 499.99
+      },
+      status: 'Active',
+      lastCheckIn: '2024-01-17T08:45:00Z'
     }
   ]);
 
@@ -125,8 +227,59 @@ function App() {
       date: '2024-01-10',
       status: 'Completed',
       description: 'Basic Monthly Membership'
+    },
+    {
+      id: '3',
+      memberId: '3',
+      amount: 149.99,
+      date: '2023-12-20',
+      status: 'Completed',
+      description: 'VIP Monthly Membership'
+    },
+    {
+      id: '4',
+      memberId: '4',
+      amount: 99.99,
+      date: '2024-01-05',
+      status: 'Completed',
+      description: 'Premium Monthly Membership'
+    },
+    {
+      id: '5',
+      memberId: '5',
+      amount: 49.99,
+      date: '2023-11-15',
+      status: 'Failed',
+      description: 'Basic Monthly Membership'
+    },
+    {
+      id: '6',
+      memberId: '6',
+      amount: 149.99,
+      date: '2023-10-08',
+      status: 'Completed',
+      description: 'VIP Monthly Membership'
+    },
+    {
+      id: '7',
+      memberId: '7',
+      amount: 99.99,
+      date: '2024-01-12',
+      status: 'Pending',
+      description: 'Premium Monthly Membership'
+    },
+    {
+      id: '8',
+      memberId: '8',
+      amount: 49.99,
+      date: '2023-12-01',
+      status: 'Completed',
+      description: 'Basic Monthly Membership'
     }
   ]);
+
+  const [dietPlans, setDietPlans] = useState<DietPlan[]>([]);
+  const [workoutPlans, setWorkoutPlans] = useState<WorkoutPlan[]>([]);
 
   const navigation = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
@@ -135,7 +288,17 @@ function App() {
     { id: 'classes', label: 'Classes', icon: Calendar },
     { id: 'equipment', label: 'Equipment', icon: Dumbbell },
     { id: 'payments', label: 'Payments', icon: CreditCard },
+    { id: 'diet-planner', label: 'Diet Planner', icon: Apple },
+    { id: 'workout-planner', label: 'Workout Planner', icon: Target },
   ];
+
+  const handleDietPlanGenerated = (plan: DietPlan) => {
+    setDietPlans(prev => [...prev, plan]);
+  };
+
+  const handleWorkoutPlanGenerated = (plan: WorkoutPlan) => {
+    setWorkoutPlans(prev => [...prev, plan]);
+  };
 
   const renderContent = () => {
     if (selectedMember) {
@@ -181,6 +344,10 @@ function App() {
         return <Equipment equipment={equipment} setEquipment={setEquipment} />;
       case 'payments':
         return <Payments payments={payments} members={members} />;
+      case 'diet-planner':
+        return <DietPlanner onPlanGenerated={handleDietPlanGenerated} />;
+      case 'workout-planner':
+        return <WorkoutPlanner onPlanGenerated={handleWorkoutPlanGenerated} />;
       default:
         return (
           <Dashboard 
